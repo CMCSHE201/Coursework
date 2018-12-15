@@ -218,7 +218,7 @@ void cGame::Render(SDL_Window* theSDLWND, SDL_Renderer* theRenderer, bool loop)
 		SDL_Rect pos3 = { 100, 300, tempTextTexture2->getTextureRect().w, tempTextTexture2->getTextureRect().h };
 		tempTextTexture3->renderTexture(theRenderer, tempTextTexture3->getTexture(), &tempTextTexture3->getTextureRect(), &pos3, scale);
 	
-		// Render Button
+		//Render Button
 		theButtonMgr->getBtn("menu_btn")->setSpritePos({ 700, 500 });
 		theButtonMgr->getBtn("menu_btn")->render(theRenderer, &theButtonMgr->getBtn("menu_btn")->getSpriteDimensions(), &theButtonMgr->getBtn("menu_btn")->getSpritePos(), theButtonMgr->getBtn("menu_btn")->getSpriteScale());
 
@@ -348,15 +348,13 @@ void cGame::Render(SDL_Window* theSDLWND, SDL_Renderer* theRenderer, bool loop)
 		if (InputFile.is_open())
 		{
 			InputFile >> highscore;
-			//If the highscore has not been beaten then will display the current highscore
-			if (highscore >= theScore)
+			if (highscore > theScore)
 			{
 				cTexture* tempTextTexture = theTextureMgr->getTexture("oldHs");
-				SDL_Rect pos = { 500, 100, tempTextTexture->getTextureRect().w / 2, tempTextTexture->getTextureRect().h / 2};
+				SDL_Rect pos = { 500, 100, tempTextTexture->getTextureRect().w / 2, tempTextTexture->getTextureRect().h / 2 };
 				FPoint scale = { 1, 1 };
 				tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
 			}
-			//Otherwise display that the user now has the new highscore
 			else
 			{
 				highscore = theScore;
@@ -365,7 +363,7 @@ void cGame::Render(SDL_Window* theSDLWND, SDL_Renderer* theRenderer, bool loop)
 				FPoint scale3 = { 1, 1 };
 				tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos3, scale3);
 				changeHighScore = true;
-				//Writes the new highscore to the file
+				highscore = theScore;
 				ofstream myfile("scores.txt");
 				if (myfile.is_open())
 				{
@@ -434,6 +432,13 @@ void cGame::Update(double deltaTime, double spawnTime, bool loop)
 				//Checks to see if the enemy has made it so far down the screen and if so then the player loses and the game ends
 				if ((*enemyIterator)->getSpritePos().y >= (WINDOW_HEIGHT - 200))
 				{
+					for (vector<cEnemy*>::iterator enemyIterator = theEnemies.begin(); enemyIterator != theEnemies.end(); ++enemyIterator)
+					{
+						if ((*enemyIterator)->isActive())
+						{
+							(*enemyIterator)->setActive(false);
+						}
+					}
 					theGameState = gameState::end;
 				}
 				++enemyIterator;
@@ -690,7 +695,7 @@ double cGame::GetElapsedSeconds()
 void cGame::CleanUp(SDL_Window* theSDLWND)
 {
 	// Delete our OpengL context
-	SDL_GL_DeleteContext(theSDLWND);
+	//SDL_GL_DeleteContext(theSDLWND);
 
 	// Destroy the window
 	SDL_DestroyWindow(theSDLWND);
