@@ -45,12 +45,6 @@ void cGame::Initialise(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 	// Clear the buffer with a black background
 	SDL_SetRenderDrawColor(theRenderer, 0, 0, 0, 255);
 	SDL_RenderPresent(theRenderer);
-	
-	/* Let the computer pick a random number */
-	random_device rd;    // non-deterministic engine 
-	mt19937 gen{ rd() }; // deterministic engine. For most common uses, std::mersenne_twister_engine, fast and high-quality.
-	uniform_int_distribution<> EnemyDis{ 1, 12 };
-	uniform_int_distribution<> EnemyTextDis{ 0, 3 };
 
 	theTextureMgr->setRenderer(theRenderer);
 	theFontMgr->initFontLib();
@@ -281,7 +275,6 @@ void cGame::Render(SDL_Window* theSDLWND, SDL_Renderer* theRenderer, bool loop)
 		random_device rd;    // non-deterministic engine 
 		mt19937 gen{ rd() }; // deterministic engine. For most common uses, std::mersenne_twister_engine, fast and high-quality.
 		uniform_int_distribution<> EnemyDis{ 4, 10 };
-		uniform_int_distribution<> EnemyTextDis{ 0, 3 };
 
 		//Checks to see if there are any enemies left and will trigger if there are none
 		if (theEnemies.size() == 0)
