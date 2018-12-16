@@ -301,6 +301,14 @@ void cGame::Render(SDL_Window* theSDLWND, SDL_Renderer* theRenderer, bool loop)
 		//Checks to see of the player has beaten the target score
 		if (theScore >= 3000)
 		{
+			for (vector<cEnemy*>::iterator enemyIterator = theEnemies.begin(); enemyIterator != theEnemies.end(); ++enemyIterator)
+			{
+				if ((*enemyIterator)->isActive())
+				{
+					(*enemyIterator)->setActive(false);
+				}
+			}
+
 			theGameState = gameState::end;
 		}
 	}

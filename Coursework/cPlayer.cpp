@@ -32,7 +32,6 @@ void cPlayer::update(double deltaTime)
 	SDL_Rect currentSpritePos = this->getSpritePos();
 	
 	currentSpritePos.x += (int)(this->playerVelocity * direction.X * this->move * deltaTime * 3);
-	//currentSpritePos.y -= (int)(this->playerVelocity * direction.Y * this->move * deltaTime);
 
 	this->setSpritePos({ currentSpritePos.x , currentSpritePos.y  });
 	this->setBoundingRect(this->getSpritePos());
